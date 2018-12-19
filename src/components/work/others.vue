@@ -1,6 +1,6 @@
 <template>
   <div class="work-others">
-    <div class="work-card" v-for="work in otherWorks">
+    <div class="work-card" v-for="(work, key) in otherWorks" :key="key">
       <div class="work-card-cover">
         <img
           class="card-cover-image"
@@ -21,7 +21,7 @@
         <div class="work-card-field">
           <ul class="field-list">
             <li class="field">
-              <a v-for="t in work.tags">
+              <a v-for="(t, tk) in work.tags" :key="tk">
                 {{ t }},
               </a>
             </li>
@@ -78,9 +78,9 @@ export default {
           watch: true,
         },
       ],
-    }
+    };
   },
-}
+};
 </script>
 
 <style rel="stylesheet/scss" lang="scss" scoped>
