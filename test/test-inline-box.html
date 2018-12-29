@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>inline-block的空隙问题</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+    .box {
+      padding: 20px;
+    }
+    .main{
+      display: inline-block;
+      width: 100px;
+      height: 100px;
+      background-color: lightpink;
+    }
+
+    .main {
+      background-color:#fff;
+      width:200px;
+      height:100px;
+      box-shadow: 0 1px 6px rgba(0,0,0,0.2);
+    }
+  </style>
+</head>
+<body>
+<div class="box">
+  <div class="main"></div>
+  <div class="main"></div>
+</div>
+</body>
+</html>
+

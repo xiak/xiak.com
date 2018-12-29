@@ -1,6 +1,6 @@
 <template>
-  <nav class="nav mobile">
-    <div class="header">
+  <nav class="nav" :class="className">
+    <div class="header-wrapper">
       <a class="logo"><strong>{{ title }}</strong></a>
       <ul class="menu">
         <li class="hamburger" @click="toggle">
@@ -15,19 +15,20 @@
           </svg>
         </li>
         <li class="menu-item">
+          <div class="menu-link">
+            <el-button
+              type="primary"
+              size="medium"
+              style="width: 100%"
+              round>注册
+            </el-button>
+          </div>
+        </li>
+        <li class="menu-item">
           <a class="menu-link">首页</a>
         </li>
         <li class="menu-item">
           <a class="menu-link">人工智能</a>
-        </li>
-        <li class="menu-item">
-          <div class="btn-container">
-            <el-button
-              size="medium"
-              style="width: 100%"
-              round>登录
-            </el-button>
-          </div>
         </li>
       </ul>
     </div>
@@ -35,16 +36,19 @@
 </template>
 <script>
 export default {
-  data() {
-    return {
-      title: '侠客',
-      isOpened: false,
-    };
+  props: {
+    className: {
+      type: String,
+      default: 'mobile, desktop',
+    },
+    title: {
+      type: String,
+      default: '',
+    },
   },
   methods: {
     toggle() {
-      this.isOpened = !this.isOpened;
-      this.$emit('toggleSidemenu', this.isOpened);
+      this.$store.dispatch('toggleSideBar');
     },
   },
 };
@@ -89,9 +93,67 @@ export default {
     }
   }
 
+  .hamburger {
+    -ms-flex-align: center;
+    align-items: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    display: -ms-flexbox;
+    display: flex;
+    height: 60px;
+    width: 70px;
+    cursor: pointer;
+  }
+
+  .menu-item {
+    -ms-flex-align: center;
+    align-items: center;
+    display: -ms-inline-flexbox;
+    display: inline-flex;
+    height: 60px;
+    position: relative;
+    vertical-align: top;
+  }
+
+  .menu-link {
+    font-family: inherit;
+    font-size: 15px;
+    color: #a4a4a4;
+    display: block;
+    font-weight: bold;
+  }
+
+  .desktop {
+    display: none;
+    .menu {
+      display: -ms-flexbox;
+      display: flex;
+      height: 60px;
+      -ms-flex-pack: center;
+      justify-content: center;
+      margin: 0 auto;
+      .menu-item {
+        -ms-flex-align: center;
+        align-items: center;
+        display: -ms-inline-flexbox;
+        display: inline-flex;
+        height: 60px;
+        position: relative;
+        vertical-align: top;
+        .menu-link {
+          box-sizing: border-box;
+          color: #a4a4a4;
+          padding: 10px 12px;
+          &:hover {
+            color: #ffffff;
+          }
+        }
+      }
+    }
+  }
+
   .mobile {
     display: none;
-    position: fixed;
     top: 0;
     left: 0;
     .logo {
@@ -124,50 +186,10 @@ export default {
         }
       }
     }
-    .btn-container {
-      display: block;
-      padding: 0 10px 10px;
-    }
   }
 
   .x-icon {
     transition: fill 0.1s linear;
-  }
-
-  .hamburger {
-    -ms-flex-align: center;
-    align-items: center;
-    -ms-flex-pack: center;
-    justify-content: center;
-    display: -ms-flexbox;
-    display: flex;
-    height: 60px;
-    width: 70px;
-    cursor: pointer;
-  }
-
-  .menu-item {
-    -ms-flex-align: center;
-    align-items: center;
-    display: -ms-inline-flexbox;
-    display: inline-flex;
-    height: 60px;
-    position: relative;
-    vertical-align: top;
-  }
-
-  .menu-link {
-    font-family: inherit;
-    font-size: 15px;
-    color: #a4a4a4;
-    display: block;
-    font-weight: bold;
-  }
-
-  .btn-container {
-    box-sizing: border-box;
-    display: inline-block;
-    text-align: center;
   }
 
   @media (max-width: 603px) {
@@ -179,6 +201,12 @@ export default {
 
   @media (max-width: 1080px) {
     .mobile {
+      display: block;
+    }
+  }
+
+  @media (min-width: 1081px) {
+    .desktop {
       display: block;
     }
   }

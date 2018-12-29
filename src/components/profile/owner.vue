@@ -12,7 +12,7 @@
           <a href="#">{{ owner }}</a>
         </div>
         <div class="owner-location">
-          <a href="#" class="owner-location-link">Tokyo, Japan</a>
+          <a href="#" class="owner-location-link">{{ location }}</a>
         </div>
       </div>
     </div>
@@ -23,7 +23,7 @@
             type="primary"
             size="mini"
             style="width: 100%"
-            round>关注
+            round>关注作者
           </el-button>
         </div>
         <div class="btn-container message">
@@ -62,9 +62,13 @@ export default {
   props: {
     className: {
       type: String,
-      default: 'owner-info-header, owner-info-bar',
+      default: 'owner-info-header, owner-info-bar, mobile-header, desktop-header',
     },
     owner: {
+      type: String,
+      default: '',
+    },
+    location: {
       type: String,
       default: '',
     },
@@ -73,13 +77,20 @@ export default {
 </script>
 
 <style rel="stylesheet/scss" lang="scss" scoped>
-  .work-mobile-header {
+  .mobile-header {
     .owner-list {
       margin-bottom: 0;
       overflow: visible;
     }
     .owner-name {
       max-width: 165px;
+    }
+  }
+
+  .desktop-header {
+    &.owner-info-header {
+      margin-top: -2px;
+      position: relative;
     }
   }
 
@@ -158,6 +169,23 @@ export default {
   .owner-info-header {
     .owner-location {
       display: none;
+    }
+    &.desktop-header {
+      .owner-list {
+        margin-bottom: 0;
+        overflow: visible;
+      }
+      .owner-list>.owner-avatar,
+      &>.owner-avatar {
+        position: absolute;
+        right: 0;
+        top: 0;
+      }
+      .owner-name-list {
+        max-width: calc(100% - 60px);
+        display: inline-block;
+        margin-top: -2px;
+      }
     }
     .owner-list>.owner-avatar,
     &>.owner-avatar {
@@ -267,7 +295,7 @@ export default {
       top: 50%;
       transform: translateY(-48%);
     }
-    .work-mobile-header {
+    .mobile-header {
       .owner-list {
         -ms-flex-align: center;
         align-items: center;

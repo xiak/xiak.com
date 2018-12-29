@@ -1,12 +1,12 @@
 <template>
   <div class="work-others">
     <div class="work-card" v-for="(work, key) in otherWorks" :key="key">
-      <div class="work-card-cover">
+      <a class="work-card-cover">
         <img
           class="card-cover-image"
-          src="work.cover"
-          srcset="https://mir-s3-cdn-cf.behance.net/projects/202/450c0673303787.Y3JvcCwxMTkyLDkzMywxMDMsMA.png, https://mir-s3-cdn-cf.behance.net/projects/404/450c0673303787.Y3JvcCwxMTkyLDkzMywxMDMsMA.png 2x" alt="Provincia" title="Provincia">
-      </div>
+          :src="work.cover"
+          :srcset="work.cover" :alt="work.title" :title="work.title" />
+      </a>
       <div class="work-card-detail">
         <div class="work-card-title">
           <a class="crad-title-link">{{ work.title }}</a>
@@ -33,11 +33,11 @@
             <span class="stat">
               <span class="stat">
                 <i class="el-icon-star-off" style="fill: #000;"></i>
-                <span>7</span>
+                <span>{{ work.star }}</span>
               </span>
               <span class="stat">
                 <i class="el-icon-view"></i>
-                <span>8</span>
+                <span>{{ work.watch }}</span>
               </span>
             </span>
             </a>
@@ -54,24 +54,48 @@ export default {
     return {
       otherWorks: [
         {
-          cover: 'https://mir-s3-cdn-cf.behance.net/projects/202/450c0673303787.Y3JvcCwxMTkyLDkzMywxMDMsMA.png',
-          title: '这是标题，一个比较长的标题，汉字组成的标题',
+          cover: 'https://c.pxhere.com/images/fe/d9/d232b859ff1ec0c86f83f46f1572-1460977.jpg!d',
+          title: '野马战斗机',
+          owner: '侠客',
+          tags: ['Art Design', 'Illustration'],
+          star: 8,
+          watch: 9,
+        },
+        {
+          cover: 'https://c.pxhere.com/images/4d/9b/b21ee1c40938e468be8014e16a9d-1436919.jpg!d',
+          title: '老爷车',
+          owner: '侠客',
+          tags: ['Art Design', 'Illustration'],
+          star: 5,
+          watch: 6,
+        },
+        {
+          cover: 'https://c.pxhere.com/images/7d/8e/9dfc9b5f0dc531a9022aa57d876c-1445391.jpg!d',
+          title: '概念车',
+          owner: '侠客',
+          tags: ['Art Design', 'Illustration'],
+          star: 3,
+          watch: 2,
+        },
+        {
+          cover: 'https://c.pxhere.com/photos/1b/2a/car_rust_vintage_retro_old_car-18068.jpg!d',
+          title: '报废车',
           owner: '侠客',
           tags: ['Art Design', 'Illustration'],
           star: true,
           watch: true,
         },
         {
-          cover: 'https://mir-s3-cdn-cf.behance.net/projects/202/450c0673303787.Y3JvcCwxMTkyLDkzMywxMDMsMA.png',
-          title: '这是标题，一个比较长的标题，汉字组成的标题',
+          cover: 'https://c.pxhere.com/photos/96/0c/old_car_steering_wheel_odometer_speedometer_old_cars_vintage-1051844.jpg!d',
+          title: '古董车的方向盘',
           owner: '侠客',
           tags: ['Art Design', 'Illustration'],
           star: true,
           watch: true,
         },
         {
-          cover: 'https://mir-s3-cdn-cf.behance.net/projects/202/450c0673303787.Y3JvcCwxMTkyLDkzMywxMDMsMA.png',
-          title: '这是标题，一个比较长的标题，汉字组成的标题',
+          cover: 'https://c.pxhere.com/photos/f2/f5/aircraft_double_decker_airport_army_aviation_space_aviation_runway_dawn_sunrise-770021.jpg!d',
+          title: '灰机',
           owner: '侠客',
           tags: ['Art Design', 'Illustration'],
           star: true,
@@ -99,76 +123,91 @@ export default {
     }
   }
   .work-card {
-    border-radius: 6px 6px 3px 3px;
-    box-sizing: border-box;
-    color: #191919;
+    position: relative;
     float: left;
-    margin: 0 20px 20px 0;
-    min-height: 300px;
-    position: relative;
-    text-align: left;
-    width: 202px;
     background-color: #fff;
+    width: 202px;
+    min-height: 300px;
+    color: #191919;
+    text-align: left;
+    margin: 0 20px 20px 0;
+    box-sizing: border-box;
     box-shadow: 0 1px 2px rgba(25,25,25,0.2);
+    border-radius: 6px 6px 3px 3px;
     cursor: pointer;
-    position: relative;
+    z-index: 2;
+    &::after {
+      content: '';
+      display: block;
+    }
   }
   .work-card-cover {
+    position: relative;
+    display: block;
+    margin: 0;
     padding-top: 78.21782%;
     background-color: #f9f9f9;
     border-radius: 6px 6px 0 0;
-    display: block;
-    margin: 0;
-    position: relative;
+    &::after {
+      border-radius: 3px 3px 0 0;
+    }
+    &:not(:hover) {
+      &::after {
+        opacity: 0;
+      }
+    }
+    img {
+      height: 100%;
+    }
   }
   .card-cover-image {
-    border-radius: 3px 3px 0 0;
-    bottom: 0;
-    display: block;
-    left: 0;
     position: absolute;
+    display: block;
+    bottom: 0;
+    left: 0;
     right: 0;
     top: 0;
     width: 100%;
+    border-radius: 3px 3px 0 0;
   }
   .work-card-detail {
     padding: 7px 10px 0 10px;
   }
   .crad-title-link {
+    display: block;
+    height: 36px;
+    line-height: 1.35;
     font-family: inherit;
     font-size: 13px;
     line-height: 1.3;
     color: #191919;
-    display: block;
     font-weight: bold;
-    height: 36px;
-    line-height: 1.35;
     margin-bottom: 9px;
     overflow: hidden;
   }
   .work-card-owner {
-    height: 36px;
     position: relative;
+    height: 36px;
     &::after {
-      background-color: #ccc;
-      bottom: 5px;
-      content: '';
-      display: block;
-      height: 1px;
-      left: 0;
       position: absolute;
+      display: block;
       width: 10px;
+      height: 1px;
+      content: '';
+      left: 0;
+      bottom: 5px;
+      background-color: #ccc;
     }
   }
   .owner-list {
+    position: relative;
+    display: inline-block;
     font-family: inherit;
     font-size: 13px;
     line-height: 1.3;
-    display: inline-block;
-    line-height: 1.6;
     max-width: 100%;
     padding-bottom: 10px;
-    position: relative;
+
   }
   .owner {
     display: block;
@@ -186,10 +225,10 @@ export default {
     height: 23px;
   }
   .field-list {
+    display: inline-block;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    display: inline-block;
     margin-bottom: 6px;
     margin-top: 2px;
   }
@@ -200,15 +239,13 @@ export default {
     font-weight: normal;
   }
   .work-card-stat {
+    display: flex;
     font-family: inherit;
     font-size: 11px;
     font-weight: bold;
-    -ms-flex-align: center;
     align-items: center;
     border-top: 1px #f2f2f2 solid;
     box-sizing: border-box;
-    display: -ms-flexbox;
-    display: flex;
     font-weight: normal;
     padding: 7px 0;
   }
@@ -221,21 +258,74 @@ export default {
     flex-grow: 1;
   }
   .stat {
-    -ms-flex-align: center;
-    align-items: center;
-    display: -ms-flexbox;
+    position: relative;
     display: flex;
     float: left;
+    margin-right: 13px;
+    vertical-align: middle;
+    align-items: center;
     font-size: 13px;
     font-weight: bold;
-    margin-right: 13px;
-    position: relative;
-    vertical-align: middle;
     i {
       fill: #a4a4a4;
       margin-right: 7px;
     }
   }
+
+  @media (max-width: 350px) {
+    .work-card {
+      margin: 0 5px 5px 0;
+      width: 150px
+    }
+  }
+
+  @media (min-width: 351px) and (max-width: 380px) {
+    .work-card {
+      margin: 0 10px 10px 0
+    }
+  }
+
+  @media (max-width: 603px) {
+    .work-card {
+      margin: 0 15px 20px 0;
+      width: 170px;
+    }
+    .work-others {
+      height: auto;
+      justify-content: space-between;
+      padding: 15px;
+      font-size: 12px;
+      .work-card {
+        background: none;
+        margin: 0 .5%;
+        min-height: 0;
+        min-width: 0;
+        width: 32%;
+        &:nth-child(n+4) {
+          display: none;
+        }
+        .card-cover-image, img {
+          border-radius: 0;
+          height: 100%;
+          width: 100%;
+        }
+        .work-card-detail {
+          display: none;
+        }
+      }
+    }
+  }
+
+  @media (max-width: 1024px) and (min-width: 604px) {
+    .work-others {
+      .work-card {
+        &:nth-child(n+5) {
+          display: none;
+        }
+      }
+    }
+  }
+
   @media (min-width: 604px) {
     .work-others {
       position: relative;
@@ -248,6 +338,5 @@ export default {
       min-height: 0;
     }
   }
-
 
 </style>

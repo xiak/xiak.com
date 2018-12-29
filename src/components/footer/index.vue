@@ -3,10 +3,9 @@
     <div class="links">
       <a class="link" href="#">蜀ICP备1234567890号-1</a>
       <a class="link" href="#">关于我们</a>
-      <a class="link" href="#">联系我们: admin@xiak.com</a>
     </div>
     <div class="links">
-      <a class="link">Copyright © 2018 侠客 XIAK.COM, All Rights Reserved.</a>
+      <a class="link">Copyright © 2018 侠客 XIAK.COM</a>
     </div>
     <div class="links">
       <a class="link"></a>

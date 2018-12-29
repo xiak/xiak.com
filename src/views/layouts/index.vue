@@ -1,11 +1,11 @@
 <template>
-  <div class="layout" :class="{'sidemenu-animate': isOpened, 'sidemenu-open': isOpened}">
+  <div class="layout" :class="{'sidemenu-animate': sidebar.opened, 'sidemenu-open': sidebar.opened}">
     <!-- Desktop Navigation -->
-    <DesktopHeader />
+    <Header :title="title" className="desktop" />
     <div class="main-container">
-      <a class="main-container-block"></a>
+      <a class="main-container-block" ></a>
       <!-- Mobile Navigation -->
-      <MobileHeader v-on:toggleSidemenu="toggle" />
+      <Header :title="title" className="mobile" />
       <!-- Content -->
       <Content />
     </div>
@@ -14,9 +14,9 @@
 </template>
 
 <script>
-import Sidebar from '@/components/Sidebar';
-import DesktopHeader from '@/components/header/desktop';
-import MobileHeader from '@/components/header/mobile';
+import { mapGetters } from 'vuex';
+import Sidebar from '@/components/sidebar';
+import Header from '@/components/header';
 import Content from '@/components/content';
 import Footer from '@/components/footer';
 
@@ -24,20 +24,19 @@ export default {
   name: 'MySite',
   components: {
     Sidebar,
-    DesktopHeader,
-    MobileHeader,
+    Header,
     Footer,
     Content,
   },
   data() {
     return {
-      isOpened: false,
+      title: '侠客',
     };
   },
-  methods: {
-    toggle(data) {
-      this.isOpened = data;
-    },
+  computed: {
+    ...mapGetters([
+      'sidebar',
+    ]),
   },
 };
 </script>
@@ -46,17 +45,16 @@ export default {
   .layout {
     position: relative;
     left: 0;
-    z-index: 1;
     width: 100%;
     height: 100%;
     transition: .5s;
+    z-index: 1;
   }
 
   .main-container {
+    overflow: visible;
+    height: 100%;
     min-height: 100vh;
-  }
-
-  .main-container {
     padding-top: 60px;
   }
 
@@ -78,6 +76,10 @@ export default {
     .sidemenu-open{
       max-height: 100vh;
       overflow: hidden;
+      .main-container-block {
+        display: block;
+        z-index: 60;
+      }
     }
     .main-container {
       -webkit-backface-visibility: hidden;

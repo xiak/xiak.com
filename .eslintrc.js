@@ -27,7 +27,7 @@ module.exports = {
   rules: {
     // don't require .vue extension when importing
     'import/extensions': ['error', 'always', {
-      js: 'never',
+      js: 'ignorePackages',
       vue: 'never'
     }],
     // disallow reassignment of function parameters
@@ -53,6 +53,7 @@ module.exports = {
       "ignoreRegExpLiterals": true
     }],
     'linebreak-style': 'off',
+    'prefer-template': 'off',
     // allow debugger during development
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off'
   }
