@@ -3,7 +3,7 @@
     <!-- Desktop Navigation -->
     <Header :title="title" className="desktop" />
     <div class="main-container">
-      <a class="main-container-block" ></a>
+      <a class="main-container-block" @click="toggle"></a>
       <!-- Mobile Navigation -->
       <Header :title="title" className="mobile" />
       <!-- Content -->
@@ -37,6 +37,11 @@ export default {
     ...mapGetters([
       'sidebar',
     ]),
+  },
+  methods: {
+    toggle() {
+      this.$store.dispatch('toggleSideBar');
+    },
   },
 };
 </script>

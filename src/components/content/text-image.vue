@@ -2,7 +2,6 @@
   <div class="module-image">
     <div class="module-image-wrap">
       <img
-        class="js-project-module--picture"
         :src="link"
         :srcset="linkset"
       >

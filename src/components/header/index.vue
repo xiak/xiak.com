@@ -3,16 +3,8 @@
     <div class="header-wrapper">
       <a class="logo"><strong>{{ title }}</strong></a>
       <ul class="menu">
-        <li class="hamburger" @click="toggle">
-          <svg
-            class="x-icon"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 15 10"
-            height="10"
-            width="15"
-          >
-            <path d="M0 8h15v2H0zM0 4h15v2H0zM0 0h15v2H0z"></path>
-          </svg>
+        <li class="hamburger" @click="toggleSideBar">
+          <Hamburger  />
         </li>
         <li class="menu-item">
           <div class="menu-link">
@@ -20,7 +12,8 @@
               type="primary"
               size="medium"
               style="width: 100%"
-              round>注册
+              round
+            >注册
             </el-button>
           </div>
         </li>
@@ -35,7 +28,12 @@
   </nav>
 </template>
 <script>
+import Hamburger from '@/components/hamburger';
+
 export default {
+  components: {
+    Hamburger,
+  },
   props: {
     className: {
       type: String,
@@ -47,7 +45,7 @@ export default {
     },
   },
   methods: {
-    toggle() {
+    toggleSideBar() {
       this.$store.dispatch('toggleSideBar');
     },
   },
@@ -85,11 +83,6 @@ export default {
       position: absolute;
       right: 0;
       top: 0;
-    }
-    .x-icon {
-      width: 35px;
-      height: 16px;
-      fill: #fff;
     }
   }
 
@@ -186,10 +179,6 @@ export default {
         }
       }
     }
-  }
-
-  .x-icon {
-    transition: fill 0.1s linear;
   }
 
   @media (max-width: 603px) {

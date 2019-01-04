@@ -1,26 +1,31 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import DefaultLayout from '@/views/layouts';
-import Editor from '@/components/editor/markdown-x';
-import Markdown from '@/components/editor';
 
 Vue.use(Router);
 
+/**
+ * Loaded router on demand
+ */
 export const defaultRoutes = [
   {
     path: '/',
     name: 'MySite',
-    component: DefaultLayout,
+    component: () => import('@/views/layouts'),
   },
   {
     path: '/editor',
     name: 'Editor',
-    component: Editor,
+    component: () => import('@/components/editor/markdown-x'),
   },
   {
     path: '/markdown',
     name: 'Markdown',
-    component: Markdown,
+    component: () => import('@/components/editor'),
+  },
+  {
+    path: '/bash',
+    name: 'Bash',
+    component: () => import('@/components/editor/editor'),
   },
 ];
 

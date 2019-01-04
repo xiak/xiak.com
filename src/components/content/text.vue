@@ -34,8 +34,14 @@
           </text-text>
         </div>
         <div class="work-module full">
-          <div v-html="code" v-highlight />
+          <div class="spacer medium">
+            <div class="divider" />
+          </div>
+          <text-text class-name="code-text">
+            <editor />
+          </text-text>
         </div>
+        <div v-html="htmlStr"></div>
       </div>
       <div class="spacer">
         <div class="divider"></div>
@@ -47,15 +53,14 @@
 <script>
 import ImageText from '@/components/content/text-image';
 import TextText from '@/components/content/text-text';
-import highlight from '@/directive/highlight/index.js'; // use directive v-highlight
+import Editor from '@/components/editor/editor';
+import md from './markdown';
 
 export default {
   components: {
     ImageText,
     TextText,
-  },
-  directives: {
-    highlight,
+    Editor,
   },
   data() {
     return {
@@ -67,18 +72,18 @@ export default {
         'https://mir-oss-cdn-sh.xiak.com/works/1400/janurschelbanu-defender-starc-citizen-5.jpg',
         'https://mir-oss-cdn-sh.xiak.com/works/1400/janurschelbanu-defender-starc-citizen-6.jpg',
       ],
-      code: `
-<pre>
-  <code>
-import Hljs from 'highlight.js'
-
-Vue.directive('highlightjs', function() {
-  let blocks = this.el.querySelectorAll('pre code');
-  Array.prototype.forEach.call(blocks, Hljs.highlightBlock);
-})
-  </code>
-</pre>`,
+      htmlStr: '',
+      markedStr: `# Header 1
+![I](https://c.pxhere.com/photos/19/04/christmas_tree_lights_balls_red_gold_holiday_tree_winter-598441.jpg!d)
+\`\`\`
+This is Script
+\`\`\`
+`,
     };
+  },
+  mounted() {
+    this.htmlStr = md(this.markedStr);
+    console.info(this.htmlStr);
   },
 };
 </script>

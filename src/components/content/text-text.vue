@@ -25,11 +25,10 @@ export default {
 </script>
 <style rel="stylesheet/scss" lang="scss" scoped>
   .module-text {
-    margin: 0 auto;
+    margin: 0 20px;
     word-wrap: break-word;
   }
   .main-text {
-    margin: 0 20px;
     color: #696969;
     font-family: arial,helvetica,sans-serif;
     font-size: 20px;
@@ -39,6 +38,11 @@ export default {
     text-align: left;
     text-decoration: none;
   }
+  .code-text {
+    height: 500px;
+    border: 1px solid #dddddd;
+    border-radius: 5px;
+  }
   .module-image-wrap {
     display: inline-block;
     max-width: 100%;
@@ -46,14 +50,12 @@ export default {
 
   @media (max-width: 603px) {
     .main-text {
-      margin: 0 10px;
       font-size: 16px;
     }
   }
 
   @media (max-width: 1024px) and (min-width: 604px) {
     .main-text {
-      margin: 0 15px;
       font-size: 18px;
     }
   }
