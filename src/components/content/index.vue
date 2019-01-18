@@ -7,8 +7,8 @@
           <div class="work-data">
             <div class="work-block owner">
               <OwnerProfile
-                owner="Jan Urschel"
-                location="Singapore"
+                owner="Xiak"
+                location="China"
                 className="owner-info-header mobile-header"
               />
             </div >
@@ -54,7 +54,7 @@
         <div class="sticky-bar">
           <sticky className="sidebar-group" >
             <div class="work-block">
-              <OwnerProfile owner="Jan Urschel" location="Singapore" className="owner-info-header desktop-header" />
+              <OwnerProfile owner="Xiak" location="China" className="owner-info-header desktop-header" />
             </div>
             <div class="work-block">
               <WorkSummary
@@ -90,22 +90,18 @@ export default {
   data() {
     return {
       workSummary: {
-        title: 'Banu Defender - Star Citizen',
+        title: '集群组件版本和配置',
         tags: [
           {
-            name: 'Industrial Design',
-            link: 'https://www.xiak.com',
+            name: 'Kubernetes',
+            link: 'https://blog.xiak.com/t/kubernetes',
           },
           {
-            name: 'Game Design',
-            link: 'https://www.xiak.com',
-          },
-          {
-            name: 'Illustration',
-            link: 'https://www.xiak.com',
+            name: 'Cloud Native',
+            link: 'https://blog.xiak.com/t/cloud-native',
           },
         ],
-        pubTime: '2018年12月25日 14:50',
+        pubTime: '2019年01月18日 11:33',
       },
     };
   },

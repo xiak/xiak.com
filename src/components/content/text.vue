@@ -7,41 +7,19 @@
         <div class="module-spacer">
           <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABXgAAAABCAYAAABkHsaZAAAAHElEQVR42u3BAQ0AAADCoPdPbQ43oAAAAAAAuDQV4QABsr+jcAAAAABJRU5ErkJggg==" />
         </div>
-        <div class="work-module full" v-for="(src, key) in srcs" :key="key" >
-          <image-text :link="src" />
-          <div class="spacer border">
-            <div class="divider" />
-          </div>
-        </div>
         <div class="spacer">
-          <div class="divider" />
+          <div class="divider"></div>
         </div>
-        <div class="work-module full">
-          <text-text class-name="main-text">
-            <div class="align-center p1"><a href="https://www.behance.net/gallery/52052475/Banu-Defender-Star-Citizen" target="_blank">Banu Defender - Star Citizen</a></div>
-            <div class="spacer tiny">
-              <div class="divider" />
-            </div>
-            <div class="p3">关于作者: <a href="https://pxhere.com" target="_blank">Jan Urschel</a></div>
-            <div class="spacer border">
-              <div class="divider" />
-            </div>
-            <div class="p3">Jan Urschel is a freelance concept designer and illustrator working in the entertainment industry, designing for feature films and video games. Clients include: Paramount Pictures, Warner Bros, Lucasfilm, Marvel, EA, Sony, Ubisoft, LucasArts, Cloud Imperium Games, Psyop etc.</div>
-            <div class="spacer border">
-              <div class="divider" />
-            </div>
-            <div class="p3">本页显示的图片仅为学习所用，不会用于商业，如有侵权请联系 x@xiak.com</div>
+        <!--<div class="work-module full" v-for="(token, k) in tokens" :key="k">
+          <image-text v-if="token.type === 'image'" />
+          <text-text class-name="code-text" v-else-if="token.type === 'code'">
+            <editor :code="token.text" :lang="token.lang" />
           </text-text>
-        </div>
-        <div class="work-module full">
-          <div class="spacer medium">
-            <div class="divider" />
-          </div>
-          <text-text class-name="code-text">
-            <editor />
+          <text-text class-name="main-text" v-else>
+            {{ token.text }}
           </text-text>
-        </div>
-        <div v-html="htmlStr"></div>
+        </div>-->
+        <div class="work-module markdown" v-editor v-html="htmlStr" ></div>
       </div>
       <div class="spacer">
         <div class="divider"></div>
@@ -51,16 +29,12 @@
 </template>
 
 <script>
-import ImageText from '@/components/content/text-image';
-import TextText from '@/components/content/text-text';
-import Editor from '@/components/editor/editor';
-import md from './markdown';
+import editor from '@/directive/editor/index.js';
+import marked from 'marked';
 
 export default {
-  components: {
-    ImageText,
-    TextText,
-    Editor,
+  directives: {
+    editor,
   },
   data() {
     return {
@@ -73,22 +47,130 @@ export default {
         'https://mir-oss-cdn-sh.xiak.com/works/1400/janurschelbanu-defender-starc-citizen-6.jpg',
       ],
       htmlStr: '',
-      markedStr: `# Header 1
-![I](https://c.pxhere.com/photos/19/04/christmas_tree_lights_balls_red_gold_holiday_tree_winter-598441.jpg!d)
+      tokens: [],
+      markedStr:
+`
+# 集群组件版本和配置
+
+## 组件版本
+
+### 核心组件
+- Kubernetes 1.11.2
+- Etcd 3.3.8
+- Docker 18.06.0-ce
+- Flanneld 0.10.0
+
+### 插件
+- Coredns
+- Dashboard
+- Heapster (influxdb、grafana)
+- Metrics-Server
+- EFK (elasticsearch、fluentd、kibana)
+
+### 镜像仓库
+- Docker registry
+- harbor
+
+## 配置
+### etcd
+- etcd和kubernetes分离, 以便在apiserver挂掉以后还可以继续工作
+
+### kube-apiserver
+- 使用 keepalived 和 haproxy 实现高可用
+- 关闭非安全端口 8080 和匿名访问
+- 在安全端口 \`6443\` 接收 https 请求
+- 严格的认证和授权策略 (x509、token、RBAC)
+- 开启 bootstrap token 认证，支持 kubelet TLS bootstrapping
+- 使用 https 访问 kubelet、etcd，加密通信
+
+### kube-controller-manager
+- 高可用
+- 关闭非安全端口，在安全端口 10252 接收 https 请求
+- 使用 kubeconfig 访问 apiserver 的安全端口
+- 自动 approve kubelet 证书签名请求 (CSR)，证书过期后自动轮转
+- 各 controller 使用自己的 ServiceAccount 访问 apiserver
+
+### kube-scheduler
+- 高可用
+- 使用 kubeconfig 访问 apiserver 的安全端口
+
+### kubelet
+- 使用 kubeconfig 访问 apiserver 的安全端口
+- 使用 TLS bootstrap 机制自动生成 client 和 server 证书，过期后自动轮转
+- 使用JSON文件配置主要参数
+- 关闭只读端口，在安全端口 10250 接收 https 请求，对请求进行认证和授权，拒绝匿名访问和非授权访问
+
+### kube-proxy
+- 使用 kubeconfig 访问 apiserver 的安全端口
+- 使用YAML文件配置主要参数
+- 使用 ipvs 代理模式
+
+### DNS
+- 使用功能、性能更好的 coredns
+
+### Dashboard
+- 支持登录认证
+
+### Metric
+- heapster、metrics-server，使用 https 访问 kubelet 安全端口
+
+### 日志
+- Elasticsearch、Fluend、Kibana
+
+### 镜像库
+- docker-registry、harbor
+
+## Picture
+![T](https://mir-oss-cdn-sh.xiak.com/works/1400/janurschelbanu-defender-starc-citizen-6.jpg)
+
+## Code
 \`\`\`
-This is Script
+export default {
+  loginByUsername: config => {
+    const { username } = JSON.parse(config.body)
+    return userMap[username]
+  },
+  getUserInfo: config => {
+    const { token } = param2Obj(config.url)
+    if (userMap[token]) {
+      return userMap[token]
+    } else {
+      return false
+    }
+  },
+  logout: () => 'success'
+}
+
 \`\`\`
 `,
     };
   },
   mounted() {
-    this.htmlStr = md(this.markedStr);
-    console.info(this.htmlStr);
+    const renderer = new marked.Renderer();
+    const option = {
+      renderer,
+      gfm: true,
+      tables: true,
+      breaks: true,
+      pedantic: false,
+      sanitize: false,
+      smartLists: true,
+      smartypants: false,
+    };
+    marked.setOptions(option);
+    // const lexer = new marked.Lexer(option);
+    // const tokens = lexer.lex(this.markedStr);
+    // console.info(tokens);
+    // const inlineLexer = new marked.InlineLexer(tokens.links, option);
+    // console.info(tokens.links);
+    // const data = inlineLexer.output('![test](https://xiak.com)');
+    // console.info(data);
+    this.htmlStr = marked.parse(this.markedStr);
   },
 };
 </script>
 
-<style rel="stylesheet/scss" lang="scss" scoped>
+<style rel="stylesheet/scss" lang="scss">
   .work-content {
     padding-top: 0;
     background-color: #FFFFFF;
@@ -128,7 +210,8 @@ This is Script
     text-align: center;
   }
   .work-module {
-    padding: 0 7.1%;
+    padding: 0 5%;
+    overflow: hidden;
     .main-text a {
       color: #1769FF;
       text-align: left;
@@ -210,5 +293,40 @@ This is Script
       font-size: 16px;
     }
   }
-
+  .markdown {
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 1.7;
+    color: #262626;
+    p {
+      margin: 0 0 10px;
+    }
+    h1 {
+      font-size: 30px;
+      margin-bottom: 30px;
+      text-align: center;
+    }
+    h2 {
+      font-size: 18px;
+    }
+    h3 {
+      font-size: 16px;
+    }
+    ol, ul {
+      margin-top: 0;
+      margin-bottom: 10px;
+    }
+    code {
+      color: #00ff00;
+      background-color: #2b2b2b;
+      border-radius: 3px;
+    }
+    img {
+      height: 100%;
+      width: 100%;
+      display: inline-block;
+      max-width: 100%;
+      vertical-align: middle;
+    }
+  }
 </style>

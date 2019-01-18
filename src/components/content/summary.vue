@@ -48,6 +48,10 @@ export default {
     font-size: 13px;
     line-height: 18px;
     margin: 2px 0 0;
+    ul {
+      padding: 0;
+      margin: 0;
+    }
   }
   .work-fields-item {
     display: inline;
